@@ -11,6 +11,9 @@ class StudentService
      */
     private array $students = [];
 
+    /**
+     * @return array{id: int, name: string, email: string}
+     */
     public function addStudent(string $name, string $email): array
     {
         $student = [
@@ -24,11 +27,17 @@ class StudentService
         return $student;
     }
 
+    /**
+     * @return array<int, array{id: int, name: string, email: string}>
+     */
     public function getStudents(): array
     {
         return $this->students;
     }
 
+    /**
+     * @return array{id: int, name: string, email: string}|null
+     */
     public function getStudentById(int $id): ?array
     {
         foreach ($this->students as $student) {
@@ -40,3 +49,4 @@ class StudentService
         return null;
     }
 }
+
