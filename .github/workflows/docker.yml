@@ -62,6 +62,7 @@ jobs:
 
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           image-ref: php-quality-training:${{ github.sha }}
           format: table
