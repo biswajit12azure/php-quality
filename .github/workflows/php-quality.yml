@@ -70,8 +70,10 @@ jobs:
 
       - name: Start PHP Application
         run: |
-          php -S 127.0.0.1:8080 -t public > /tmp/php-server.log 2>&1 &
+          nohup php -S 127.0.0.1:8080 -t public > /tmp/php-server.log 2>&1 </dev/null &
+          echo $! > /tmp/php-server.pid
           sleep 3
+          curl -f http://127.0.0.1:8080
 
 
       - name: Acceptance Tests
