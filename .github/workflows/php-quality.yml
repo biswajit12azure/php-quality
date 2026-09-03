@@ -84,7 +84,7 @@ jobs:
 
 
       - name: Acceptance Tests
-        run: vendor/bin/codecept run acceptance
+        run: vendor/bin/codecept run
 
 
       - name: Code Coverage
