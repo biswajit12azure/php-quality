@@ -23,7 +23,7 @@ final class HomeCest
 
         $I->seeResponseCodeIs(200);
 
-        $I->seeInResponseBody('"status":"UP"');
+        $I->see('"status":"UP"');
     }
 
     public function additionEndpointWorks(AcceptanceTester $I): void
@@ -32,7 +32,7 @@ final class HomeCest
 
         $I->seeResponseCodeIs(200);
 
-        $I->seeInResponseBody('"result":30');
+        $I->see('"result":30');
     }
 
     public function unknownRouteReturns404(AcceptanceTester $I): void
@@ -41,6 +41,6 @@ final class HomeCest
 
         $I->seeResponseCodeIs(404);
 
-        $I->seeInResponseBody('Route not found');
+        $I->see('Route not found');
     }
 }
