@@ -109,7 +109,6 @@ jobs:
           vendor/bin/phpunit \
           --coverage-text \
           --coverage-clover=coverage.xml
-          --coverage-html=coverage-html
 
 
       - name: Upload Coverage Reports
@@ -118,4 +117,3 @@ jobs:
           name: php-coverage-report
           path: |
                coverage.xml
-               coverage-html/
