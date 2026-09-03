@@ -43,6 +43,13 @@ jobs:
       - name: Generate Codeception support files
         run: vendor/bin/codecept build
 
+      - name: Check Codeception suites
+        run: |
+         echo "=== tests directory ==="
+         find tests -maxdepth 2 -type f | sort
+         echo "=== Codeception info ==="
+         vendor/bin/codecept list
+
 
       - name: PHP Syntax Linting
         run: |
