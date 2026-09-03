@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Acceptance;
 
-use Tests\Support\AcceptanceTester;
+use Tests\AcceptanceTester;
 
 final class HomeCest
 {
