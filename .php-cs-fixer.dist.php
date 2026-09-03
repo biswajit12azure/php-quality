@@ -12,3 +12,4 @@ return (new PhpCsFixer\Config())
         '@PER-CS' => true,
     ])
     ->setFinder($finder);
+    
