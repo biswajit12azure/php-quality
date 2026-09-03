@@ -1,4 +1,4 @@
-name: Deploy PHP Coverage to GitHub Pages
+name: Deploy Coverage XML to GitHub Pages
 
 on:
   workflow_run:
@@ -10,9 +10,10 @@ on:
       - main
 
 permissions:
+  actions: read
+  contents: read
   pages: write
   id-token: write
-  actions: read
 
 jobs:
 
@@ -37,10 +38,17 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
 
+      - name: Check downloaded files
+        run: |
+          echo "=== Downloaded artifacts ==="
+          find artifacts -type f
+
+
       - name: Prepare GitHub Pages files
         run: |
           mkdir -p site
-          cp -R artifacts/coverage.xml/* site/
+
+          cp artifacts/coverage.xml site/
 
 
       - name: Upload GitHub Pages artifact
