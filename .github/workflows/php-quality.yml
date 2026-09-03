@@ -87,7 +87,18 @@ jobs:
           sleep 3
           curl -f http://127.0.0.1:8080
 
+      
+      - name: Debug AcceptanceTester
+        run: |
+          echo "=== AcceptanceTester declarations ==="
+          grep -R "class AcceptanceTester" tests --include="*.php" || true
 
+          echo "=== AcceptanceTester files ==="
+          find tests -type f -name "*AcceptanceTester*" -print
+
+          echo "=== Generated Support directory ==="
+          find tests/Support -maxdepth 2 -type f -print
+          
       - name: Acceptance Tests
         run: vendor/bin/codecept run
 
