@@ -49,7 +49,12 @@ jobs:
          find tests -maxdepth 2 -type f | sort
          echo "=== Codeception info ==="
          vendor/bin/codecept list
-
+      
+      - name: Generate Codeception support files
+        run: |
+           vendor/bin/codecept build
+           echo "=== AcceptanceTester.php ==="
+           cat tests/Support/AcceptanceTester.php
 
       - name: PHP Syntax Linting
         run: |
