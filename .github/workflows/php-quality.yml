@@ -98,7 +98,7 @@ jobs:
 
           echo "=== Generated Support directory ==="
           find tests/Support -maxdepth 2 -type f -print
-          
+
       - name: Acceptance Tests
         run: vendor/bin/codecept run
 
@@ -109,10 +109,13 @@ jobs:
           vendor/bin/phpunit \
           --coverage-text \
           --coverage-clover=coverage.xml
+          --coverage-html=coverage-html
 
 
-      - name: Upload Coverage
+      - name: Upload Coverage Reports
         uses: actions/upload-artifact@v4
         with:
-          name: php-coverage
-          path: coverage.xml
+          name: php-coverage-report
+          path: |
+               coverage.xml
+               coverage-html/
