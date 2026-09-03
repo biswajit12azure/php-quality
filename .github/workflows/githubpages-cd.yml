@@ -40,7 +40,7 @@ jobs:
       - name: Prepare GitHub Pages files
         run: |
           mkdir -p site
-          cp -R artifacts/coverage-html/* site/
+          cp -R artifacts/coverage.xml/* site/
 
 
       - name: Upload GitHub Pages artifact
