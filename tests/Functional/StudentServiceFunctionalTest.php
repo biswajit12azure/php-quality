@@ -39,7 +39,7 @@ class StudentServiceFunctionalTest extends TestCase
         $this->assertNotNull($retrievedStudent);
         $this->assertSame(
             'rahul@example.com',
-            $retrievedStudent['email']
+            $retrievedStudent['email'],
         );
     }
 
