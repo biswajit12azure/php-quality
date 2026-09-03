@@ -1,0 +1,93 @@
+name: PHP Quality Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  php-quality:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug
+
+
+      - name: Check PHP version
+        run: php -v
+
+
+      - name: Check Composer version
+        run: composer --version
+
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+
+      - name: Generate Codeception support files
+        run: vendor/bin/codecept build
+
+
+      - name: PHP Syntax Linting
+        run: |
+          find src public tests \
+          -type f \
+          -name "*.php" \
+          -print0 | xargs -0 -n1 php -l
+
+
+      - name: Check Code Formatting
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+
+      - name: Static Analysis
+        run: vendor/bin/phpstan analyse
+
+
+      - name: Unit Tests
+        run: vendor/bin/phpunit tests/Unit
+
+
+      - name: Functional Tests
+        run: vendor/bin/phpunit tests/Functional
+
+
+      - name: Start PHP Application
+        run: |
+          php -S 127.0.0.1:8080 -t public > /tmp/php-server.log 2>&1 &
+          sleep 3
+
+
+      - name: Acceptance Tests
+        run: vendor/bin/codecept run acceptance
+
+
+      - name: Code Coverage
+        run: |
+          XDEBUG_MODE=coverage \
+          vendor/bin/phpunit \
+          --coverage-text \
+          --coverage-clover=coverage.xml
+
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-coverage
+          path: coverage.xml
