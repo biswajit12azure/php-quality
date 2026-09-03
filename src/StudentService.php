@@ -19,7 +19,7 @@ class StudentService
         $student = [
             'id' => count($this->students) + 1,
             'name' => $name,
-            'email' => $email
+            'email' => $email,
         ];
 
         $this->students[] = $student;
