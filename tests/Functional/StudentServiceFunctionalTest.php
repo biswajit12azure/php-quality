@@ -21,7 +21,7 @@ class StudentServiceFunctionalTest extends TestCase
         // Step 1: Add a student
         $student = $this->studentService->addStudent(
             'Rahul',
-            'rahul@example.com'
+            'rahul@example.com',
         );
 
         // Step 2: Verify student was created
@@ -47,17 +47,17 @@ class StudentServiceFunctionalTest extends TestCase
     {
         $this->studentService->addStudent(
             'Rahul',
-            'rahul@example.com'
+            'rahul@example.com',
         );
 
         $this->studentService->addStudent(
             'Priya',
-            'priya@example.com'
+            'priya@example.com',
         );
 
         $this->studentService->addStudent(
             'Amit',
-            'amit@example.com'
+            'amit@example.com',
         );
 
         $students = $this->studentService->getStudents();

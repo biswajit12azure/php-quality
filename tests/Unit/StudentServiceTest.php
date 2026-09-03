@@ -20,7 +20,7 @@ class StudentServiceTest extends TestCase
     {
         $student = $this->studentService->addStudent(
             'Rahul',
-            'rahul@example.com'
+            'rahul@example.com',
         );
 
         $this->assertSame(1, $student['id']);
@@ -32,12 +32,12 @@ class StudentServiceTest extends TestCase
     {
         $this->studentService->addStudent(
             'Rahul',
-            'rahul@example.com'
+            'rahul@example.com',
         );
 
         $this->studentService->addStudent(
             'Priya',
-            'priya@example.com'
+            'priya@example.com',
         );
 
         $students = $this->studentService->getStudents();
@@ -49,7 +49,7 @@ class StudentServiceTest extends TestCase
     {
         $this->studentService->addStudent(
             'Rahul',
-            'rahul@example.com'
+            'rahul@example.com',
         );
 
         $student = $this->studentService->getStudentById(1);
