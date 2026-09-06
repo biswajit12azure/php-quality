@@ -1,17 +1,83 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+push:
+branches: ["main"]
+pull_request:
+branches: ["main"]
 
 jobs:
-  build:
-    runs-on: self-hosted
+build:
+runs-on: self-hosted
 
-    steps:
-      - uses: actions/checkout@v4
+```
+steps:
+  # 1. Checkout source code
+  - name: Checkout source code
+    uses: actions/checkout@v4
 
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$([int][double]::Parse((Get-Date -UFormat %s)))
+  # 2. Check whether Docker is installed
+  - name: Check Docker
+    shell: pwsh
+    run: |
+      if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
+        Write-Host "Docker is not installed."
+        exit 1
+      }
+
+      docker --version
+
+  # 3. Start Docker Desktop
+  - name: Start Docker Desktop
+    shell: pwsh
+    run: |
+      $dockerDesktop = "$env:ProgramFiles\Docker\Docker\Docker Desktop.exe"
+
+      if (Test-Path $dockerDesktop) {
+        Start-Process $dockerDesktop
+        Write-Host "Docker Desktop started."
+      }
+      else {
+        Write-Host "Docker Desktop executable not found."
+        exit 1
+      }
+
+  # 4. Wait for Docker Engine
+  - name: Wait for Docker Engine
+    shell: pwsh
+    run: |
+      $maxAttempts = 30
+
+      for ($i = 1; $i -le $maxAttempts; $i++) {
+        try {
+          docker info
+          Write-Host "Docker Engine is ready."
+          exit 0
+        }
+        catch {
+          Write-Host "Waiting for Docker Engine... attempt $i/$maxAttempts"
+          Start-Sleep -Seconds 5
+        }
+      }
+
+      Write-Error "Docker Engine did not become ready."
+      exit 1
+
+  # 5. Build Docker image
+  - name: Build the Docker image
+    shell: pwsh
+    run: |
+      $tag = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+
+      docker build `
+        --file Dockerfile `
+        --tag "my-image-name:$tag" `
+        .
+
+  # 6. Verify image
+  - name: Show Docker images
+    shell: pwsh
+    run: |
+      docker images
+```
+
