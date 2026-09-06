@@ -1,35 +1,33 @@
 name: Docker Image CI
 
 on:
-push:
-branches: ["main"]
-pull_request:
-branches: ["main"]
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-build:
-runs-on: self-hosted
+  build:
+    runs-on: self-hosted
 
-steps:
-  - name: Checkout source code
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-  - name: Check Docker
-    shell: pwsh
-    run: |
-      docker --version
-      docker info
+      - name: Check Docker
+        shell: pwsh
+        run: |
+          docker --version
+          docker info
 
-  - name: Build the Docker image
-    shell: pwsh
-    run: |
-      $tag = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+      - name: Build the Docker image
+        shell: pwsh
+        run: |
+          $tag = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+          docker build --file Dockerfile --tag "my-image-name:$tag" .
 
-      docker build `
-        --file Dockerfile `
-        --tag "my-image-name:$tag" `
-        .
-
-  - name: Show Docker images
-    shell: pwsh
-    run: docker images
+      - name: Show Docker images
+        shell: pwsh
+        run: docker images
